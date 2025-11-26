@@ -65,7 +65,7 @@ class DashboardController extends Controller
                 'date' => '2024-01-14'
             ],
             [
-                'student' => 'ALSSANI Fati ',
+                'student' => 'ALASSANI Fati ',
                 'description' => 'Problème avec la plateforme en ligne',
                 'date' => '2024-01-13'
             ]
@@ -81,7 +81,7 @@ class DashboardController extends Controller
             ['level' => 'Maîtrise C2', 'collected' => 2800000, 'En attente' => 400000]
         ];
 
-        // Fixed the view path to match the actual directory structure
+        // Correction du chemin de la vue pour correspondre à la structure réelle des répertoires
         return view('dashboard.dashboard', compact('stats', 'recentRegistrations', 'pendingNeeds', 'revenueByLevel'));
     }
 }

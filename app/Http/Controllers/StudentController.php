@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class StudentController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Afficher une liste des ressources.
      */
     public function index()
     {
@@ -17,7 +17,7 @@ class StudentController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Afficher le formulaire pour créer une nouvelle ressource.
      */
     public function create()
     {
@@ -25,7 +25,7 @@ class StudentController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Stocker une ressource nouvellement créée dans le stockage.
      */
     public function store(Request $request)
     {
@@ -45,7 +45,7 @@ class StudentController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Afficher la ressource spécifiée.
      */
     public function show(Etudiant $student)
     {
@@ -54,7 +54,7 @@ class StudentController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Afficher le formulaire pour modifier la ressource spécifiée.
      */
     public function edit(Etudiant $student)
     {
@@ -62,7 +62,7 @@ class StudentController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Mettre à jour la ressource spécifiée dans le stockage.
      */
     public function update(Request $request, Etudiant $student)
     {
@@ -82,7 +82,7 @@ class StudentController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Supprimer la ressource spécifiée du stockage.
      */
     public function destroy(Etudiant $student)
     {
@@ -93,7 +93,7 @@ class StudentController extends Controller
     }
 
     /**
-     * Get registrations for a specific student.
+     * Obtenir les inscriptions pour un étudiant spécifique.
      */
     public function registrations(Etudiant $etudiant)
     {
@@ -114,7 +114,7 @@ class StudentController extends Controller
     }
 
     /**
-     * Get student information for AJAX requests.
+     * Obtenir les informations de l'étudiant pour les requêtes AJAX.
      */
     public function getStudentInfo(Etudiant $etudiant)
     {

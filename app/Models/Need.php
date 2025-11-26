@@ -24,9 +24,9 @@ class Need extends Model
     public function getPriorityTextAttribute()
     {
         $priorities = [
-            'low' => 'Basse',
-            'medium' => 'Moyenne',
-            'high' => 'Haute'
+            'basse' => 'Basse',
+            'moyenne' => 'Moyenne',
+            'haute' => 'Haute'
         ];
 
         return $priorities[$this->priority] ?? $this->priority;
@@ -35,9 +35,9 @@ class Need extends Model
     public function getStatusTextAttribute()
     {
         $statuses = [
-            'pending' => 'En attente',
-            'in_progress' => 'En cours',
-            'resolved' => 'Résolu'
+            'en_attente' => 'En attente',
+            'en_cours' => 'En cours',
+            'resolu' => 'Résolu'
         ];
 
         return $statuses[$this->status] ?? $this->status;

@@ -12,11 +12,11 @@ use Illuminate\Support\Facades\DB;
 class ReportController extends Controller
 {
     /**
-     * Display payments by level report.
+     * Afficher le rapport des paiements par niveau.
      */
     public function paymentsByLevel()
     {
-        // Get payments grouped by course level
+        // Obtenir les paiements regroupés par niveau de cours
         $paymentsByLevel = Payment::select(
                 'courses.level',
                 DB::raw('COUNT(payments.id) as payment_count'),
@@ -28,18 +28,18 @@ class ReportController extends Controller
             ->orderBy('total_amount', 'desc')
             ->get();
 
-        // Get total payments across all levels
+        // Obtenir le total des paiements pour tous les niveaux
         $totalPayments = Payment::sum('amount');
 
         return view('reports.payments-by-level', compact('paymentsByLevel', 'totalPayments'));
     }
 
     /**
-     * Display student balances report.
+     * Afficher le rapport des soldes des étudiants.
      */
     public function studentBalances()
     {
-        // Get students with their registration balances
+        // Obtenir les étudiants avec leurs soldes d'inscription
         $students = Etudiant::select(
                 'etudiants.id',
                 'etudiants.first_name',

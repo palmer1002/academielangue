@@ -58,7 +58,7 @@ class Payment extends Model
         return $query->where('statut', 'retard');
     }
 
-    // Get the payment method text
+    // Obtenir le texte de la méthode de paiement
     public function getPaymentMethodTextAttribute()
     {
         $methods = [

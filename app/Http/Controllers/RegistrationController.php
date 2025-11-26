@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 class RegistrationController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Afficher une liste des ressources.
      */
     public function index()
     {
@@ -21,7 +21,7 @@ class RegistrationController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Afficher le formulaire pour créer une nouvelle ressource.
      */
     public function create()
     {
@@ -31,7 +31,7 @@ class RegistrationController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Stocker une ressource nouvellement créée dans le stockage.
      */
     public function store(Request $request)
     {
@@ -42,14 +42,14 @@ class RegistrationController extends Controller
             'status' => 'required|string|in:pending,active,completed,cancelled',
         ]);
 
-        // Get the course to set the total amount
+        // Obtenir le cours pour définir le montant total
         $course = Course::findOrFail($request->course_id);
         
-        // Calculate start and end dates
+        // Calculer les dates de début et de fin
         $startDate = $request->registration_date;
         $endDate = date('Y-m-d', strtotime("+$course->duration_days days", strtotime($startDate)));
         
-        // Create registration with proper values
+        // Créer l'inscription avec les valeurs appropriées
         Registration::create([
             'student_id' => $request->student_id,
             'course_id' => $request->course_id,
@@ -66,7 +66,7 @@ class RegistrationController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Afficher la ressource spécifiée.
      */
     public function show(Registration $registration)
     {
@@ -75,7 +75,7 @@ class RegistrationController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Afficher le formulaire pour modifier la ressource spécifiée.
      */
     public function edit(Registration $registration)
     {
@@ -85,7 +85,7 @@ class RegistrationController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Mettre à jour la ressource spécifiée dans le stockage.
      */
     public function update(Request $request, Registration $registration)
     {
@@ -96,14 +96,14 @@ class RegistrationController extends Controller
             'status' => 'required|string|in:pending,active,completed,cancelled',
         ]);
 
-        // Get the course to set the total amount
+        // Obtenir le cours pour définir le montant total
         $course = Course::findOrFail($request->course_id);
         
-        // Calculate start and end dates
+        // Calculer les dates de début et de fin
         $startDate = $request->registration_date;
         $endDate = date('Y-m-d', strtotime("+$course->duration_days days", strtotime($startDate)));
         
-        // Update registration with proper values
+        // Mettre à jour l'inscription avec les valeurs appropriées
         $registration->update([
             'student_id' => $request->student_id,
             'course_id' => $request->course_id,
@@ -119,7 +119,7 @@ class RegistrationController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Supprimer la ressource spécifiée du stockage.
      */
     public function destroy(Registration $registration)
     {

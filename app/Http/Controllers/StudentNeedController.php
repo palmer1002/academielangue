@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class StudentNeedController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Afficher une liste des ressources.
      */
     public function index()
     {
@@ -18,7 +18,7 @@ class StudentNeedController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Afficher le formulaire pour créer une nouvelle ressource.
      */
     public function create()
     {
@@ -27,7 +27,7 @@ class StudentNeedController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Stocker une ressource nouvellement créée dans le stockage.
      */
     public function store(Request $request)
     {
@@ -48,7 +48,7 @@ class StudentNeedController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Afficher la ressource spécifiée.
      */
     public function show(Need $need)
     {
@@ -57,7 +57,7 @@ class StudentNeedController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Afficher le formulaire pour modifier la ressource spécifiée.
      */
     public function edit(Need $need)
     {
@@ -66,7 +66,7 @@ class StudentNeedController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Mettre à jour la ressource spécifiée dans le stockage.
      */
     public function update(Request $request, Need $need)
     {
@@ -85,7 +85,7 @@ class StudentNeedController extends Controller
     }
 
     /**
-     * Update the status of the specified resource.
+     * Mettre à jour le statut de la ressource spécifiée.
      */
     public function updateStatus(Request $request, Need $need)
     {
@@ -100,7 +100,7 @@ class StudentNeedController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Supprimer la ressource spécifiée du stockage.
      */
     public function destroy(Need $need)
     {
