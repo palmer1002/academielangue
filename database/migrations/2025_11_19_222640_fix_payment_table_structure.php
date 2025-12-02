@@ -11,26 +11,26 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // First, rename the table if it exists with the french name
+        // D'abord, renommer la table si elle existe avec le nom français
         if (Schema::hasTable('paiements') && !Schema::hasTable('payments')) {
             Schema::rename('paiements', 'payments');
         }
 
-        // Then modify the table structure to match the model
+        // Ensuite, modifier la structure de la table pour correspondre au modèle
         Schema::table('payments', function (Blueprint $table) {
-            // Drop the old student_id column if it exists
+            // Supprimer l'ancienne colonne student_id si elle existe
             if (Schema::hasColumn('payments', 'student_id')) {
                 $table->dropForeign(['student_id']);
                 $table->dropColumn('student_id');
             }
 
-            // Add the registration_id column if it doesn't exist
+            // Ajouter la colonne registration_id si elle n'existe pas
             if (!Schema::hasColumn('payments', 'registration_id')) {
                 $table->unsignedBigInteger('registration_id')->after('id');
                 $table->foreign('registration_id')->references('id')->on('registrations')->onDelete('cascade');
             }
 
-            // Rename columns to match the model
+            // Renommer les colonnes pour correspondre au modèle
             if (Schema::hasColumn('payments', 'montant') && !Schema::hasColumn('payments', 'amount')) {
                 $table->renameColumn('montant', 'amount');
             }
@@ -43,7 +43,7 @@ return new class extends Migration
                 $table->renameColumn('methode', 'payment_method');
             }
 
-            // Ensure all required columns exist
+            // S'assurer que toutes les colonnes requises existent
             if (!Schema::hasColumn('payments', 'receipt_number')) {
                 $table->string('receipt_number')->nullable()->after('payment_method');
             }
@@ -60,7 +60,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('payments', function (Blueprint $table) {
-            // Revert column names
+            // Rétablir les noms de colonnes
             if (Schema::hasColumn('payments', 'amount') && !Schema::hasColumn('payments', 'montant')) {
                 $table->renameColumn('amount', 'montant');
             }
@@ -73,20 +73,20 @@ return new class extends Migration
                 $table->renameColumn('payment_method', 'methode');
             }
 
-            // Remove registration_id and add back student_id
+            // Supprimer registration_id et rajouter student_id
             if (Schema::hasColumn('payments', 'registration_id')) {
                 $table->dropForeign(['registration_id']);
                 $table->dropColumn('registration_id');
             }
 
-            // Add student_id back
+            // Rajouter student_id
             if (!Schema::hasColumn('payments', 'student_id')) {
                 $table->unsignedBigInteger('student_id')->after('id');
                 $table->foreign('student_id')->references('id')->on('etudiants')->onDelete('cascade');
             }
         });
 
-        // Rename table back to french name if needed
+        // Renommer la table avec le nom français si nécessaire
         if (Schema::hasTable('payments') && !Schema::hasTable('paiements')) {
             Schema::rename('payments', 'paiements');
         }

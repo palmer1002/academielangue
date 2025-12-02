@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 class AuthController extends Controller
 {
     /**
-     * Show the login form.
+     * Affiche le formulaire de connexion.
      */
     public function showLogin()
     {
@@ -16,7 +16,7 @@ class AuthController extends Controller
     }
 
     /**
-     * Handle login request.
+     * Traite la demande de connexion.
      */
     public function login(Request $request)
     {
@@ -36,7 +36,7 @@ class AuthController extends Controller
     }
 
     /**
-     * Show the registration form.
+     * Affiche le formulaire d'inscription.
      */
     public function showRegister()
     {
@@ -44,16 +44,16 @@ class AuthController extends Controller
     }
 
     /**
-     * Handle registration request.
+     * Traite la demande d'inscription.
      */
     public function register(Request $request)
     {
-        // Implementation would go here
+        // L'implémentation irait ici
         return redirect('/dashboard');
     }
 
     /**
-     * Handle logout request.
+     * Traite la demande de déconnexion.
      */
     public function logout(Request $request)
     {

@@ -10,7 +10,7 @@ use App\Mail\PaymentReceipt;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
-use Barryvdh\DomPDF\PDF;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class PaymentController extends Controller
 {
@@ -34,10 +34,10 @@ class PaymentController extends Controller
 
     public function history(Request $request)
     {
-        // Build the query
+        // Construire la requête
         $query = Payment::with('registration.student', 'registration.course');
         
-        // Apply filters
+        // Appliquer les filtres
         if ($request->has('student_id') && $request->student_id) {
             $query->whereHas('registration', function($q) use ($request) {
                 $q->where('student_id', $request->student_id);
@@ -52,13 +52,13 @@ class PaymentController extends Controller
             $query->where('payment_date', '<=', $request->date_to);
         }
         
-        // Order by payment date descending
+        // Trier par date de paiement décroissante
         $query->orderBy('payment_date', 'desc');
         
-        // Paginate results
+        // Paginer les résultats
         $payments = $query->paginate(15)->appends($request->except('page'));
         
-        // Calculate statistics
+        // Calculer les statistiques
         $totalPayments = $payments->total();
         $totalAmount = $query->sum('amount');
         $averageAmount = $totalPayments > 0 ? $totalAmount / $totalPayments : 0;
@@ -71,7 +71,7 @@ class PaymentController extends Controller
 
     public function selectRegistration()
     {
-        // Get students with active registrations that have remaining amounts to pay
+        // Obtenir les étudiants avec des inscriptions actives qui ont des montants restants à payer
         $students = Etudiant::whereHas('registrations', function($query) {
                 $query->where('status', 'active')
                       ->whereRaw('amount_paid < total_amount');
@@ -90,9 +90,9 @@ class PaymentController extends Controller
     {
         $studentId = $request->get('student_id');
         
-        // If no student_id is provided, we should show a list of all students with unpaid registrations
+        // Si aucun student_id n'est fourni, nous devons afficher une liste de tous les étudiants avec des inscriptions impayées
         if (!$studentId) {
-            // Get all students with active registrations that have remaining amounts to pay
+            // Obtenir tous les étudiants avec des inscriptions actives qui ont des montants restants à payer
             $students = Etudiant::whereHas('registrations', function($query) {
                     $query->where('status', 'active')
                           ->whereRaw('amount_paid < total_amount');
@@ -100,7 +100,7 @@ class PaymentController extends Controller
                 ->orderBy('last_name')
                 ->get();
                 
-            // Get registrations for the first student if there is one
+            // Obtenir les inscriptions pour le premier étudiant s'il y en a un
             $registrations = collect();
             $student = null;
             if ($students->isNotEmpty()) {
@@ -113,7 +113,7 @@ class PaymentController extends Controller
             return view('payments.create', compact('students', 'student', 'registrations'));
         }
 
-        // If student_id is provided, get that specific student with their registrations
+        // Si un student_id est fourni, obtenir cet étudiant spécifique avec ses inscriptions
         $student = Etudiant::with(['registrations' => function($query) {
                 $query->where('status', 'active')
                       ->whereRaw('amount_paid < total_amount')
@@ -121,7 +121,7 @@ class PaymentController extends Controller
             }])
             ->findOrFail($studentId);
 
-        // Filter registrations that still have remaining amounts
+        // Filtrer les inscriptions qui ont encore des montants restants
         $registrations = $student->registrations->filter(function($reg) {
             return $reg->remaining_amount > 0;
         });
@@ -131,7 +131,7 @@ class PaymentController extends Controller
                 ->with('error', 'Cet étudiant n\'a pas d\'inscriptions avec des soldes impayés.');
         }
 
-        // Also pass all students for the dropdown
+        // Passer également tous les étudiants pour le menu déroulant
         $students = Etudiant::whereHas('registrations', function($query) {
                 $query->where('status', 'active')
                       ->whereRaw('amount_paid < total_amount');
@@ -145,8 +145,8 @@ class PaymentController extends Controller
     public function store(Request $request)
     {
         try {
-            // Log the incoming request data for debugging
-            \Log::info('Payment store request data:', $request->all());
+            // Journaliser les données de la requête entrante pour le débogage
+            \Illuminate\Support\Facades\Log::info('Payment store request data:', $request->all());
             
             $validatedData = $request->validate([
                 'registration_id' => 'required|exists:registrations,id',
@@ -157,17 +157,17 @@ class PaymentController extends Controller
                 'marquer_paye' => 'nullable|boolean'
             ]);
             
-            // Log the validated data
-            \Log::info('Payment validated data:', $validatedData);
+            // Journaliser les données validées
+            \Illuminate\Support\Facades\Log::info('Payment validated data:', $validatedData);
 
             $registration = Registration::findOrFail($validatedData['registration_id']);
             
-            // Log registration info
-            \Log::info('Registration found:', ['id' => $registration->id, 'remaining_amount' => $registration->remaining_amount]);
+            // Journaliser les informations d'inscription
+            \Illuminate\Support\Facades\Log::info('Registration found:', ['id' => $registration->id, 'remaining_amount' => $registration->remaining_amount]);
 
-            // Check if the amount doesn't exceed the remaining amount
+            // Vérifier si le montant ne dépasse pas le montant restant
             if ($validatedData['amount'] > $registration->remaining_amount) {
-                \Log::warning('Payment amount exceeds remaining amount', [
+                \Illuminate\Support\Facades\Log::warning('Payment amount exceeds remaining amount', [
                     'amount' => $validatedData['amount'],
                     'remaining' => $registration->remaining_amount
                 ]);
@@ -175,7 +175,7 @@ class PaymentController extends Controller
                     ->with('error', 'Le montant ne peut pas dépasser le solde restant de ' . number_format($registration->remaining_amount, 2) . ' FCFA');
             }
 
-            // Create the payment
+            // Créer le paiement
             $payment = new Payment();
             $payment->registration_id = $validatedData['registration_id'];
             $payment->amount = $validatedData['amount'];
@@ -186,32 +186,32 @@ class PaymentController extends Controller
             $payment->notes = $validatedData['notes'] ?? null;
             $payment->save();
             
-            // Log payment creation
-            \Log::info('Payment created:', ['id' => $payment->id, 'receipt_number' => $payment->receipt_number]);
+            // Journaliser la création du paiement
+            \Illuminate\Support\Facades\Log::info('Payment created:', ['id' => $payment->id, 'receipt_number' => $payment->receipt_number]);
 
-            // Update the registration's amount paid
+            // Mettre à jour le montant payé de l'inscription
             $registration->amount_paid += $validatedData['amount'];
             $registration->save();
             
-            // Log registration update
-            \Log::info('Registration updated:', ['id' => $registration->id, 'amount_paid' => $registration->amount_paid]);
+            // Journaliser la mise à jour de l'inscription
+            \Illuminate\Support\Facades\Log::info('Registration updated:', ['id' => $registration->id, 'amount_paid' => $registration->amount_paid]);
 
-            // Send email receipt
+            // Envoyer le reçu par email
             try {
                 if ($registration->student->email) {
                     Mail::to($registration->student->email)->send(new PaymentReceipt($payment));
-                    \Log::info('Payment receipt email sent', ['to' => $registration->student->email]);
+                    \Illuminate\Support\Facades\Log::info('Payment receipt email sent', ['to' => $registration->student->email]);
                 } else {
-                    \Log::warning('No email address for student', ['student_id' => $registration->student->id]);
+                    \Illuminate\Support\Facades\Log::warning('No email address for student', ['student_id' => $registration->student->id]);
                 }
             } catch (\Exception $e) {
-                \Log::error('Failed to send payment receipt email: ' . $e->getMessage());
+                \Illuminate\Support\Facades\Log::error('Failed to send payment receipt email: ' . $e->getMessage());
             }
 
             return redirect()->route('payments.index')
                 ->with('success', 'Paiement enregistré avec succès. Numéro de reçu: ' . $payment->receipt_number);
         } catch (\Exception $e) {
-            \Log::error('Payment store error: ' . $e->getMessage(), [
+            \Illuminate\Support\Facades\Log::error('Payment store error: ' . $e->getMessage(), [
                 'trace' => $e->getTraceAsString(),
                 'request_data' => $request->all()
             ]);
@@ -236,28 +236,27 @@ class PaymentController extends Controller
     {
         $payment->load('registration.student', 'registration.course');
         
-        // Generate PDF from the receipt view
-        $pdf = app('dompdf.wrapper');
-        $pdf->loadView('payments.receipt-pdf', compact('payment'));
+        // Générer le PDF à partir de la vue du reçu
+        $pdf = Pdf::loadView('payments.receipt-pdf', compact('payment'));
         
-        // Create filename
+        // Créer le nom du fichier
         $filename = 'receipt_' . $payment->receipt_number . '.pdf';
         
-        // Return PDF download response
+        // Retourner la réponse de téléchargement du PDF
         return $pdf->download($filename);
     }
 
     public function destroy(Payment $payment)
     {
-        // Store the receipt number for the message
+        // Stocker le numéro de reçu pour le message
         $receiptNumber = $payment->receipt_number;
         
-        // Refund the amount from the registration
+        // Rembourser le montant de l'inscription
         $registration = $payment->registration;
         $registration->amount_paid -= $payment->amount;
         $registration->save();
         
-        // Delete the payment
+        // Supprimer le paiement
         $payment->delete();
 
         return redirect()->route('payments.index')
@@ -273,7 +272,7 @@ class PaymentController extends Controller
             ->with('success', 'Paiement marqué comme payé.');
     }
 
-    // API methods
+    // Méthodes API
     public function getStudentRegistrations($studentId)
     {
         $registrations = Registration::with('course')

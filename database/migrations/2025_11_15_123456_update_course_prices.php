@@ -12,14 +12,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // Update existing course prices
+        // Mettre à jour les prix des cours existants
         DB::table('courses')->where('name', 'Anglais Débutant')->update(['price' => 50000]);
         DB::table('courses')->where('name', 'Anglais Intermédiaire')->update(['price' => 50000]);
         DB::table('courses')->where('name', 'Anglais Avancé')->update(['price' => 50000]);
         DB::table('courses')->where('name', 'Espagnol Débutant')->update(['price' => 50000]);
         DB::table('courses')->where('name', 'Français Débutant')->update(['price' => 50000]);
         
-        // Insert new annual course
+        // Insérer un nouveau cours annuel
         DB::table('courses')->insert([
             'name' => 'Anglais Annuel',
             'level' => 'Annuel',
@@ -35,14 +35,14 @@ return new class extends Migration
      */
     public function down(): void
     {
-        // Revert course prices to original values
+        // Rétablir les prix des cours aux valeurs originales
         DB::table('courses')->where('name', 'Anglais Débutant')->update(['price' => 300]);
         DB::table('courses')->where('name', 'Anglais Intermédiaire')->update(['price' => 400]);
         DB::table('courses')->where('name', 'Anglais Avancé')->update(['price' => 500]);
         DB::table('courses')->where('name', 'Espagnol Débutant')->update(['price' => 280]);
         DB::table('courses')->where('name', 'Français Débutant')->update(['price' => 320]);
         
-        // Delete the annual course
+        // Supprimer le cours annuel
         DB::table('courses')->where('name', 'Anglais Annuel')->delete();
     }
 };

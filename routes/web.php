@@ -9,14 +9,14 @@ use App\Http\Controllers\StudentNeedController;
 use App\Http\Controllers\ReportController;
 use Illuminate\Support\Facades\Route;
 
-// Authentication Routes
+// Routes d'authentification
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// Test route for debugging
+// Route de test pour le débogage
 Route::get('/test-students', function() {
     $students = \App\Models\Etudiant::whereHas('registrations', function($query) {
         $query->where('status', 'active')
@@ -67,18 +67,18 @@ Route::get('/test-registrations/{studentId}', function($studentId) {
     ]);
 });
 
-// Protected Routes
+// Routes protégées
 Route::middleware(['auth'])->group(function () {
-    // Dashboard
+    // Tableau de bord
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     
-    // Students
+    // Étudiants
     Route::resource('students', StudentController::class);
     
-    // Registrations
+    // Inscriptions
     Route::resource('registrations', RegistrationController::class);
     
-    // Payments - Routes complètes
+    // Paiements - Routes complètes
     Route::get('/payments', [PaymentController::class, 'index'])->name('payments.index');
     Route::get('/payments/history', [PaymentController::class, 'history'])->name('payments.history');
     Route::get('/payments/select-registration', [PaymentController::class, 'selectRegistration'])->name('payments.select-registration');
@@ -90,15 +90,15 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/payments/{payment}', [PaymentController::class, 'destroy'])->name('payments.destroy');
     Route::post('/payments/{payment}/marquer-paye', [PaymentController::class, 'marquerPaye'])->name('payments.marquer-paye');
     
-    // Student Needs
+    // Besoins des étudiants
     Route::resource('needs', StudentNeedController::class);
     Route::patch('/needs/{need}/status', [StudentNeedController::class, 'updateStatus'])->name('needs.updateStatus');
     
-    // Reports
+    // Rapports
     Route::get('/reports/payments-by-level', [ReportController::class, 'paymentsByLevel'])->name('reports.payments-by-level');
     Route::get('/reports/student-balances', [ReportController::class, 'studentBalances'])->name('reports.student-balances');
     
-    // API Routes for AJAX
+    // Routes API pour AJAX
     Route::get('/api/student-registrations/{studentId}', [PaymentController::class, 'getStudentRegistrations']);
     Route::get('/api/registration-details/{registrationId}', [PaymentController::class, 'getRegistrationDetails']);
     Route::get('/students/{etudiant}/registrations', [StudentController::class, 'registrations'])->name('students.registrations');

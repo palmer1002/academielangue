@@ -10,11 +10,11 @@ class DashboardController extends Controller
     {
         // Données simulées pour le prototype
         $stats = [
-            'totalStudents' => 156,
-            'totalRegistrations' => 89,
-            'totalRevenue' => 12500000,
-            'pendingNeeds' => 12,
-            'activeCourses' => 8,
+            'totalStudents' => 5,
+            'totalRegistrations' => 3,
+            'totalRevenue' => 120000,
+            'pendingNeeds' => 3,
+            'activeCourses' => 4,
             'completionRate' => 78
         ];
 
@@ -23,31 +23,31 @@ class DashboardController extends Controller
             [
                 'student' => 'KOKOROKO Raymond',
                 'level' => 'Débutant A1',
-                'start_date' => '2024-01-15',
+                'start_date' => '2025-01-15',
                 'status' => 'payé'
             ],
             [
                 'student' => 'TEVI Josué',
                 'level' => 'Intermédiaire B1',
-                'start_date' => '2024-01-14',
+                'start_date' => '2025-01-14',
                 'status' => 'partiel'
             ],
             [
                 'student' => 'TOSSOU Assouan',
                 'level' => 'Avancé C1',
-                'start_date' => '2024-01-13',
+                'start_date' => '2025-01-13',
                 'status' => 'payé'
             ],
             [
                 'student' => 'SEWODO Gisele',
                 'level' => 'Élémentaire A2',
-                'start_date' => '2024-01-12',
+                'start_date' => '2025-01-12',
                 'status' => 'payé'
             ],
             [
                 'student' => 'EKLOU Folly',
                 'level' => 'Débutant A1',
-                'start_date' => '2024-01-11',
+                'start_date' => '2025-01-11',
                 'status' => 'partiel'
             ]
         ];
@@ -57,17 +57,17 @@ class DashboardController extends Controller
             [
                 'student' => 'BOSSRO Emmunuel',
                 'description' => 'Besoin de cours supplémentaires en grammaire',
-                'date' => '2024-01-15'
+                'date' => '2025-01-15'
             ],
             [
                 'student' => 'KLANLENOU Arnaud',
                 'description' => 'Demande de changement d\'horaire',
-                'date' => '2024-01-14'
+                'date' => '2025-01-14'
             ],
             [
                 'student' => 'ALASSANI Fati ',
                 'description' => 'Problème avec la plateforme en ligne',
-                'date' => '2024-01-13'
+                'date' => '2025-01-13'
             ]
         ];
 

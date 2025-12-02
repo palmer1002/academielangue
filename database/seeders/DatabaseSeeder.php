@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'test@example.com',
         ]);
         
-        // Seed courses
+        // Initialiser les cours
         $this->call(CourseSeeder::class);
     }
 }

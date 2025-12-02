@@ -131,15 +131,15 @@
 }
 
 /* Couleurs harmonisées avec la page de paiement */
-.card .text-primary { color: #4a90e2 !important; }
-.card .text-success { color: #2ecc71 !important; }
+.card .text-primary { color: #092E58FF !important; }
+.card .text-success { color: #135930FF !important; }
 .card .text-warning { color: #f39c12 !important; }
-.card .text-info { color: #3498db !important; }
+.card .text-info { color: #092E58FF !important; }
 
-.bg-primary { background-color: #4a90e2 !important; }
-.bg-success { background-color: #2ecc71 !important; }
+.bg-primary { background-color: #092E58FF !important; }
+.bg-success { background-color: #135930FF !important; }
 .bg-warning { background-color: #f39c12 !important; }
-.bg-info { background-color: #3498db !important; }
+.bg-info { background-color: #092E58FF !important; }
 
 .card {
     border-radius: 10px;
