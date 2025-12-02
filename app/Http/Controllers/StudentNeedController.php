@@ -75,7 +75,7 @@ class StudentNeedController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'priority' => 'required|string|in:low,medium,high',
-            'status' => 'required|string|in:pending,in_progress,resolved,cancelled',
+            'status' => 'required|string|in:pending,in_progress,completed,cancelled',
         ]);
 
         $need->update($request->all());
@@ -90,7 +90,7 @@ class StudentNeedController extends Controller
     public function updateStatus(Request $request, Need $need)
     {
         $request->validate([
-            'status' => 'required|string|in:pending,in_progress,resolved,cancelled',
+            'status' => 'required|string|in:pending,in_progress,completed,cancelled',
         ]);
 
         $need->update(['status' => $request->status]);

@@ -25,7 +25,7 @@
                 <div class="col-md-6 col-lg-4">
                     <div class="login-card p-4">
                         <div class="text-center mb-4">
-                            <h2>Académie de Langues</h2>
+                            <h2>Bienvenue sur la page GESCADMEC</h2>
                             <p class="text-muted">Connectez-vous à votre compte</p>
                         </div>
 

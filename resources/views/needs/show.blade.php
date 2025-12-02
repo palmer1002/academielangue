@@ -35,7 +35,7 @@
                                 <td><strong>Priorité:</strong></td>
                                 <td>
                                     <span class="badge bg-{{ $need->priority == 'high' ? 'danger' : ($need->priority == 'medium' ? 'warning' : 'secondary') }}">
-                                        {{ $need->priority }}
+                                        {{ $need->priority_text }}
                                     </span>
                                 </td>
                             </tr>
@@ -47,7 +47,7 @@
                                 <td><strong>Statut:</strong></td>
                                 <td>
                                     <span class="badge bg-{{ $need->status == 'completed' ? 'success' : ($need->status == 'in_progress' ? 'primary' : 'secondary') }}">
-                                        {{ $need->status }}
+                                        {{ $need->status_text }}
                                     </span>
                                 </td>
                             </tr>

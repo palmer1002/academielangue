@@ -68,7 +68,7 @@
                                 id="status" name="status">
                             <option value="pending" {{ (old('status', $need->status) == 'pending') ? 'selected' : '' }}>En attente</option>
                             <option value="in_progress" {{ (old('status', $need->status) == 'in_progress') ? 'selected' : '' }}>En cours</option>
-                            <option value="resolved" {{ (old('status', $need->status) == 'resolved') ? 'selected' : '' }}>Résolu</option>
+                            <option value="completed" {{ (old('status', $need->status) == 'completed') ? 'selected' : '' }}>Résolu</option>
                             <option value="cancelled" {{ (old('status', $need->status) == 'cancelled') ? 'selected' : '' }}>Annulé</option>
                         </select>
                         @error('status')

@@ -44,13 +44,13 @@
                                     <td>{{ Str::limit($need->description, 50) }}</td>
                                     <td>
                                         <span class="badge bg-{{ $need->priority == 'high' ? 'danger' : ($need->priority == 'medium' ? 'warning' : 'secondary') }}">
-                                            {{ $need->priority }}
+                                            {{ $need->priority_text }}
                                         </span>
                                     </td>
                                     <td>{{ $need->created_at->format('d/m/Y') }}</td>
                                     <td>
                                         <span class="badge bg-{{ $need->status == 'completed' ? 'success' : ($need->status == 'in_progress' ? 'primary' : 'secondary') }}">
-                                            {{ $need->status }}
+                                            {{ $need->status_text }}
                                         </span>
                                     </td>
                                     <td>
